@@ -33,14 +33,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Positioned(
                     bottom: 0,
                     right: 0,
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        color: Appcolors.grey,
-                        borderRadius: BorderRadius.circular(50),
+                    child: InkWell(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              shadowColor: Colors.black54,
+                              title: Text('Change Photo'),
+                              content: SizedBox(
+                                height: 113,
+                                width: 200,
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                      title: Text('Select Photo'),
+                                      onTap: () {},
+                                    ),
+                                    ListTile(
+                                      title: Text('Take Photo'),
+                                      onTap: () {},
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Close'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          color: Appcolors.grey,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Icon(Icons.edit, color: Appcolors.white),
                       ),
-                      child: Icon(Icons.edit, color: Appcolors.white),
                     ),
                   ),
                 ],
@@ -63,6 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   scrollDirection: Axis.vertical,
                   children: [
                     ListTile(
+                      onTap: () {},
                       leading: Icon(
                         Icons.email_outlined,
                         color: Appcolors.grey,
@@ -74,6 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Divider(thickness: 1, color: Appcolors.grey),
                     ),
                     ListTile(
+                      onTap: () {},
                       leading: Icon(Icons.settings, color: Appcolors.grey),
                       title: Text('Setting'),
                     ),
@@ -82,6 +121,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Divider(thickness: 1, color: Appcolors.grey),
                     ),
                     ListTile(
+                      onTap: () {},
                       leading: Icon(Icons.info, color: Appcolors.grey),
                       title: Text('About'),
                     ),

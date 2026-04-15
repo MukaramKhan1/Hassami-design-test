@@ -12,8 +12,8 @@ class _OverviewContainerState extends State<OverviewContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
-      width: 50,
+      height: 40,
+      width: 40,
       decoration: BoxDecoration(
         color: const Color.fromARGB(144, 217, 214, 204),
         borderRadius: BorderRadius.circular(10),

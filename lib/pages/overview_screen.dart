@@ -12,6 +12,8 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+  int ontapindex = 0;
+  List tabs = ['Overview', 'Details'];
   @override
   Widget build(BuildContext context) {
     // final w=MediaQuery.sizeOf(context).width;
@@ -72,10 +74,10 @@ class _DetailsPageState extends State<DetailsPage> {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: '               Price',
+                                    text: '                  Price',
                                     style: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w400,
-                                      fontSize: 18,
+                                      fontSize: 16,
                                     ),
                                   ),
                                 ],
@@ -84,18 +86,9 @@ class _DetailsPageState extends State<DetailsPage> {
                             SizedBox(height: 10),
                             Row(
                               children: [
-                                Icon(
-                                  Icons.location_on_outlined,
-                                  color: const Color.fromARGB(
-                                    255,
-                                    212,
-                                    207,
-                                    207,
-                                  ),
-                                  size: 30,
-                                ),
+                                Image.asset('assets/locationicon.png'),
                                 Text(
-                                  'south, America',
+                                  ' South, America',
                                   style: GoogleFonts.roboto(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 18,
@@ -103,12 +96,31 @@ class _DetailsPageState extends State<DetailsPage> {
                                   ),
                                 ),
                                 SizedBox(width: 97),
-                                Text(
-                                  ' \$ 230',
-                                  style: GoogleFonts.roboto(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18,
-                                    color: Appcolors.white,
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: '\$',
+                                        style: GoogleFonts.roboto(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                          color: const Color.fromARGB(
+                                            255,
+                                            167,
+                                            160,
+                                            98,
+                                          ),
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: ' 230',
+                                        style: GoogleFonts.roboto(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 19,
+                                          color: Appcolors.white,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -125,12 +137,12 @@ class _DetailsPageState extends State<DetailsPage> {
                       height: 50,
                       width: 50,
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(175, 163, 158, 158),
+                        color: const Color.fromARGB(125, 48, 47, 47),
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: InkWell(
                         onTap: () {
-                          Navigator.pop(context);
+                          // Navigator.pop(context);
                         },
                         child: Icon(
                           Icons.arrow_back_ios_new_rounded,
@@ -146,7 +158,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       height: 50,
                       width: 50,
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(181, 163, 158, 158),
+                        color: const Color.fromARGB(125, 48, 47, 47),
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: Image.asset(
@@ -160,21 +172,32 @@ class _DetailsPageState extends State<DetailsPage> {
               SizedBox(height: 30),
               Row(
                 children: [
-                  Text(
-                    'Overview',
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 22,
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        ontapindex = 0;
+                      });
+                    },
+                    child: Text(
+                      'Overview',
+                      style: GoogleFonts.inter(
+                        fontWeight: FontWeight.w600,
+                        fontSize: ontapindex == 0 ? 22 : 16,
+                      ),
                     ),
                   ),
                   SizedBox(width: 20),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      setState(() {
+                        ontapindex = 1;
+                      });
+                    },
                     child: Text(
                       'Details',
                       style: GoogleFonts.inter(
                         fontWeight: FontWeight.w600,
-                        fontSize: 16,
+                        fontSize: ontapindex == 1 ? 22 : 16,
                         color: Appcolors.grey,
                       ),
                     ),
@@ -184,59 +207,73 @@ class _DetailsPageState extends State<DetailsPage> {
               SizedBox(height: 30),
               SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        OverviewContainer(
-                          child: Icon(Icons.access_time_filled_rounded),
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          '8 hours',
-                          style: GoogleFonts.roboto(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                            color: Appcolors.greytext,
-                          ),
-                        ),
-                        SizedBox(width: 25),
-                        OverviewContainer(child: Icon(Icons.cloud_rounded)),
-                        SizedBox(width: 10),
-                        Text(
-                          '16 c',
-                          style: GoogleFonts.roboto(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                            color: Appcolors.greytext,
-                          ),
-                        ),
-                        SizedBox(width: 25),
-                        OverviewContainer(child: Icon(Icons.star)),
-                        SizedBox(width: 10),
+                child: ontapindex == 0
+                    ? Column(
+                        children: [
+                          Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              OverviewContainer(
+                                child: Icon(
+                                  Icons.access_time_filled_rounded,
+                                  size: 20,
+                                  color: const Color.fromARGB(190, 12, 12, 12),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                '8 hours',
+                                style: GoogleFonts.roboto(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  color: Appcolors.greytext,
+                                ),
+                              ),
+                              SizedBox(width: 43),
+                              OverviewContainer(
+                                child: Icon(
+                                  Icons.cloud_rounded,
+                                  size: 20,
+                                  color: const Color.fromARGB(190, 12, 12, 12),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                '16 c',
+                                style: GoogleFonts.roboto(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  color: Appcolors.greytext,
+                                ),
+                              ),
+                              SizedBox(width: 43),
+                              OverviewContainer(
+                                child: Image.asset('assets/startimage.png'),
+                              ),
+                              SizedBox(width: 10),
 
-                        Text(
-                          '4.5',
-                          style: GoogleFonts.roboto(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                            color: Appcolors.greytext,
+                              Text(
+                                '4.5',
+                                style: GoogleFonts.roboto(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  color: Appcolors.greytext,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 30),
-                    Text(
-                      'This vast mountain range is renowned for its remarkable diversity in terms of topography and climate. It features towering peaks, active volcanoes, deep canyons, expansive plateaus,and lush valleys. ',
-                      style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        color: Appcolors.grey,
-                      ),
-                    ),
-                  ],
-                ),
+                          SizedBox(height: 30),
+                          Text(
+                            'This vast mountain range is renowned for its remarkable diversity in terms of topography and climate. It features towering peaks, active volcanoes, deep canyons, expansive plateaus,and lush valleys. ',
+                            style: GoogleFonts.roboto(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Appcolors.grey,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Text('We will update soon'),
               ),
             ],
           ),
