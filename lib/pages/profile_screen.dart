@@ -15,7 +15,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Profiles',
+          'Profile',
           style: GoogleFonts.lobster(fontWeight: FontWeight.w500, fontSize: 40),
         ),
       ),
