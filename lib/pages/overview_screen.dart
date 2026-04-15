@@ -12,6 +12,9 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+  int onseleectedtab = 0;
+  List tablist = ['Overview', 'Details'];
+  @override
   @override
   Widget build(BuildContext context) {
     // final w=MediaQuery.sizeOf(context).width;
@@ -160,22 +163,35 @@ class _DetailsPageState extends State<DetailsPage> {
               SizedBox(height: 30),
               Row(
                 children: [
-                  Text(
-                    'Overview',
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 22,
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        onseleectedtab = 0;
+                      });
+                    },
+                    child: Text(
+                      'Overview',
+                      style: GoogleFonts.inter(
+                        fontWeight: FontWeight.w600,
+                        fontSize: onseleectedtab == 0 ? 22 : 16,
+                      ),
                     ),
                   ),
                   SizedBox(width: 20),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      setState(() {
+                        onseleectedtab = 1;
+                      });
+                    },
                     child: Text(
                       'Details',
                       style: GoogleFonts.inter(
                         fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                        color: Appcolors.grey,
+                        fontSize: onseleectedtab == 1 ? 22 : 16,
+                        color: onseleectedtab == 1
+                            ? Colors.black
+                            : Appcolors.grey,
                       ),
                     ),
                   ),
@@ -184,59 +200,62 @@ class _DetailsPageState extends State<DetailsPage> {
               SizedBox(height: 30),
               SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        OverviewContainer(
-                          child: Icon(Icons.access_time_filled_rounded),
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          '8 hours',
-                          style: GoogleFonts.roboto(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                            color: Appcolors.greytext,
-                          ),
-                        ),
-                        SizedBox(width: 25),
-                        OverviewContainer(child: Icon(Icons.cloud_rounded)),
-                        SizedBox(width: 10),
-                        Text(
-                          '16 c',
-                          style: GoogleFonts.roboto(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                            color: Appcolors.greytext,
-                          ),
-                        ),
-                        SizedBox(width: 25),
-                        OverviewContainer(child: Icon(Icons.star)),
-                        SizedBox(width: 10),
+                child: onseleectedtab == 0
+                    ? Column(
+                        children: [
+                          Row(
+                            children: [
+                              OverviewContainer(
+                                child: Icon(Icons.access_time_filled_rounded),
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                '8 hours',
+                                style: GoogleFonts.roboto(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  color: Appcolors.greytext,
+                                ),
+                              ),
+                              SizedBox(width: 25),
+                              OverviewContainer(
+                                child: Icon(Icons.cloud_rounded),
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                '16 c',
+                                style: GoogleFonts.roboto(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  color: Appcolors.greytext,
+                                ),
+                              ),
+                              SizedBox(width: 25),
+                              OverviewContainer(child: Icon(Icons.star)),
+                              SizedBox(width: 10),
 
-                        Text(
-                          '4.5',
-                          style: GoogleFonts.roboto(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                            color: Appcolors.greytext,
+                              Text(
+                                '4.5',
+                                style: GoogleFonts.roboto(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  color: Appcolors.greytext,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 30),
-                    Text(
-                      'This vast mountain range is renowned for its remarkable diversity in terms of topography and climate. It features towering peaks, active volcanoes, deep canyons, expansive plateaus,and lush valleys. ',
-                      style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        color: Appcolors.grey,
-                      ),
-                    ),
-                  ],
-                ),
+                          SizedBox(height: 30),
+                          Text(
+                            'This vast mountain range is renowned for its remarkable diversity in terms of topography and climate. It features towering peaks, active volcanoes, deep canyons, expansive plateaus,and lush valleys. ',
+                            style: GoogleFonts.roboto(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Appcolors.grey,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Text('wait for updates'),
               ),
             ],
           ),
