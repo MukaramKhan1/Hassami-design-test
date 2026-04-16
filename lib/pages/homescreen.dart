@@ -14,9 +14,87 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
-  // bool isslected = false;
+  //ye by default select nh hoga
+  bool isfav1 = false;
+  bool isfav2 = false;
+  //ye empty list hai jisme hum favorite place ka data store karenge
+  List<Map<String, String>> favoritelist = [];
+  //yeaha say data gayga favoritelist main aur waha say data aayega favorite screen main
+  // void toggleFavorite(int index) {
+  //   setState(() {
+  //     if (index == 0) {
+  //       isfav1 = !isfav1;
+  //       if (isfav1) {
+  //         favoritelist.add({
+  //           'title': "Mount fuji,Tokyo",
+  //           'location': "Tokyo,Japan",
+  //           'rating': "4.8",
+  //           'image': "assets/viewImage01.png",
+  //         });
+  //       } else {
+  //         favoritelist.removeWhere(
+  //           (item) => item['title'] == 'Mount fuji, Tokyo',
+  //         );
+  //       }
+  //       if (index == 1) {
+  //         isfav2 = !isfav2;
+  //         if (isfav2) {
+  //           favoritelist.add({
+  //             'title': "Andes,America",
+  //             'Location': "South America",
+  //             'rating': "4.5",
+  //             'image': "assets/viewImage02.png",
+  //           });
+  //         } else {
+  //           favoritelist.removeWhere(
+  //             (item) => item['title'] == 'Andes, America',
+  //           );
+  //         }
+  //       }
+  //     }
+  //   });
+  // }
+  void toggleFavorite(int index) {
+    setState(() {
+      if (index == 0) {
+        isfav1 = !isfav1;
+
+        if (isfav1) {
+          favoritelist.add({
+            'title': "Mount fuji, Tokyo",
+            'location': "Tokyo, Japan",
+            'rating': "4.8",
+            'image': "assets/viewImage01.png",
+          });
+        } else {
+          favoritelist.removeWhere(
+            (item) => item['title'] == 'Mount fuji, Tokyo',
+          );
+        }
+      }
+
+      if (index == 1) {
+        isfav2 = !isfav2;
+
+        if (isfav2) {
+          favoritelist.add({
+            'title': "Andes, America",
+            'location': "South America",
+            'rating': "4.5",
+            'image': "assets/viewImage02.png",
+          });
+        } else {
+          favoritelist.removeWhere((item) => item['title'] == 'Andes, America');
+        }
+      }
+    });
+  }
+
+  // bool isslected = false;   //s terah nh karna hai q k siraf tap huta hai first tab disselecte nh huta
   // bool isclicked = false;
   // bool istouched = false;
+
+  // s say index wise tab select huta do tab ek sat nh huta
   int selectedtab = 0;
   List tabs = ['Most Viewd', 'Nearby', 'latest'];
 
@@ -134,7 +212,6 @@ class _HomescreenState extends State<Homescreen> {
                 ],
               ),
             ),
-
             SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 15),
               scrollDirection: Axis.horizontal,
@@ -223,7 +300,6 @@ class _HomescreenState extends State<Homescreen> {
               ),
             ),
             SizedBox(height: 10),
-
             SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 15),
               scrollDirection: Axis.horizontal,
@@ -269,7 +345,9 @@ class _HomescreenState extends State<Homescreen> {
                                 right: 20,
                                 top: 10,
                                 child: InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    toggleFavorite(0);
+                                  },
                                   child: Container(
                                     height: 40,
                                     width: 40,
@@ -282,10 +360,17 @@ class _HomescreenState extends State<Homescreen> {
                                       ),
                                       borderRadius: BorderRadius.circular(50),
                                     ),
-                                    child: Image.asset(
-                                      'assets/heartIcon.png',
-                                      color: Appcolors.white,
-                                    ),
+                                    child: isfav1
+                                        ? Icon(
+                                            Icons.favorite_rounded,
+                                            color: isfav1
+                                                ? Colors.red
+                                                : Appcolors.white,
+                                          )
+                                        : Image.asset(
+                                            'assets/heartIcon.png',
+                                            color: Appcolors.white,
+                                          ),
                                   ),
                                 ),
                               ),
@@ -427,7 +512,9 @@ class _HomescreenState extends State<Homescreen> {
                                 right: 20,
                                 top: 10,
                                 child: InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    toggleFavorite(1);
+                                  },
                                   child: Container(
                                     height: 40,
                                     width: 40,
@@ -440,10 +527,17 @@ class _HomescreenState extends State<Homescreen> {
                                       ),
                                       borderRadius: BorderRadius.circular(50),
                                     ),
-                                    child: Image.asset(
-                                      'assets/heartIcon.png',
-                                      color: Appcolors.white,
-                                    ),
+                                    child: isfav2
+                                        ? Icon(
+                                            Icons.favorite_rounded,
+                                            color: isfav2
+                                                ? Colors.red
+                                                : Appcolors.white,
+                                          )
+                                        : Image.asset(
+                                            'assets/heartIcon.png',
+                                            color: Appcolors.white,
+                                          ),
                                   ),
                                 ),
                               ),

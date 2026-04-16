@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mukaram_sir_task/utils/appColors.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -10,6 +13,17 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  File? imageFile;
+  final ImagePicker picker = ImagePicker();
+  Future<void> pickImage(ImageSource gallery) async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,11 +62,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   children: [
                                     ListTile(
                                       title: Text('Select Photo'),
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        pickImage(ImageSource.gallery);
+                                      },
                                     ),
                                     ListTile(
                                       title: Text('Take Photo'),
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        pickImage(ImageSource.camera);
+                                      },
                                     ),
                                   ],
                                 ),
