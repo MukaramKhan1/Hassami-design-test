@@ -15,8 +15,8 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   File? imageFile;
   final ImagePicker picker = ImagePicker();
-  Future<void> pickImage(ImageSource gallery) async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  Future<void> pickImage(ImageSource source) async {
+    final pickedFile = await picker.pickImage(source: source);
     if (pickedFile != null) {
       setState(() {
         imageFile = File(pickedFile.path);
@@ -41,7 +41,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Stack(
                 children: [
                   CircleAvatar(
-                    backgroundImage: AssetImage('assets/profilescreen.jpg'),
+                    backgroundImage: imageFile != null
+                        ? FileImage(imageFile!)
+                        : AssetImage('assets/profilescreen.jpg')
+                              as ImageProvider,
                     radius: 80,
                   ),
                   Positioned(

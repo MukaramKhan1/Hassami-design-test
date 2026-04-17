@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mukaram_sir_task/pages/overview_screen.dart';
@@ -13,12 +15,53 @@ class Homescreen extends StatefulWidget {
   State<Homescreen> createState() => _HomescreenState();
 }
 
+// List<Map<String, String>> favoritelist = [];
+
+ValueNotifier<List<MyModel>> favouriteListNew = ValueNotifier([]);
+
+// ye model class hai jo hamary app ki required data ko rakta hai
+class MyModel {
+  String title;
+  String location;
+  String rating;
+  String image;
+  bool isFavorite;
+
+  MyModel({
+    required this.title,
+    required this.location,
+    required this.rating,
+    required this.image,
+    required this.isFavorite,
+  });
+}
+
+// yaha say model class ka data retrive huta hai
+List<MyModel> isfavoritelists = [
+  MyModel(
+    title: "Mount fuji, Tokyo",
+    location: "Tokyo, Japan",
+    rating: "4.8",
+    image: "assets/viewImage01.png",
+    isFavorite: false,
+  ),
+  MyModel(
+    title: "Andes, America",
+    location: "South America",
+    rating: "4.5",
+    image: "assets/viewImage02.png",
+    isFavorite: false,
+  ),
+];
+
+ValueNotifier<List<Map<String, String>>> favoriteNotifier = ValueNotifier([]);
+
 class _HomescreenState extends State<Homescreen> {
   //ye by default select nh hoga
   bool isfav1 = false;
   bool isfav2 = false;
+
   //ye empty list hai jisme hum favorite place ka data store karenge
-  List<Map<String, String>> favoritelist = [];
   //yeaha say data gayga favoritelist main aur waha say data aayega favorite screen main
   // void toggleFavorite(int index) {
   //   setState(() {
@@ -56,50 +99,39 @@ class _HomescreenState extends State<Homescreen> {
   // }
   void toggleFavorite(int index) {
     setState(() {
-      if (index == 0) {
-        isfav1 = !isfav1;
+      isfavoritelists[index].isFavorite = !isfavoritelists[index].isFavorite;
 
-        if (isfav1) {
-          favoritelist.add({
-            'title': "Mount fuji, Tokyo",
-            'location': "Tokyo, Japan",
-            'rating': "4.8",
-            'image': "assets/viewImage01.png",
-          });
-        } else {
-          favoritelist.removeWhere(
-            (item) => item['title'] == 'Mount fuji, Tokyo',
-          );
-        }
+      if (isfavoritelists[index].isFavorite) {
+        favouriteListNew.value.add(isfavoritelists[index]);
+        // notifyListners();
+
+        // favoritelist.add({
+        //   'title': isfavoritelists[index].title,
+        //   'location': isfavoritelists[index].location,
+        //   'rating': isfavoritelists[index].rating,
+        //   'image': isfavoritelists[index].image,
+        // });
+      } else {
+        // favoritelist.removeWhere(
+        //   (item) => item['title'] == isfavoritelists[index].title,
+        // );
       }
-
-      if (index == 1) {
-        isfav2 = !isfav2;
-
-        if (isfav2) {
-          favoritelist.add({
-            'title': "Andes, America",
-            'location': "South America",
-            'rating': "4.5",
-            'image': "assets/viewImage02.png",
-          });
-        } else {
-          favoritelist.removeWhere((item) => item['title'] == 'Andes, America');
-        }
-      }
+      print("the length of mhy data ${favouriteListNew.value.length}");
     });
   }
 
-  // bool isslected = false;   //s terah nh karna hai q k siraf tap huta hai first tab disselecte nh huta
+  //s terah nh karna hai q k siraf tap huta hai first tab disselecte nh huta
+  // bool isslected = false;
   // bool isclicked = false;
   // bool istouched = false;
-
   // s say index wise tab select huta do tab ek sat nh huta
   int selectedtab = 0;
   List tabs = ['Most Viewd', 'Nearby', 'latest'];
 
   @override
   Widget build(BuildContext context) {
+    // media query build k andar use huti hai
+
     // final h = MediaQuery.sizeOf(context).height;
     // final w = MediaQuery.sizeOf(context).width;
     return Scaffold(
@@ -107,55 +139,51 @@ class _HomescreenState extends State<Homescreen> {
       appBar: AppBar(
         toolbarHeight: 85,
         backgroundColor: Appcolors.white,
-
-        flexibleSpace:
-            // elevation: 1,
-            SafeArea(
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.start,
+        flexibleSpace: SafeArea(
+          child: Column(
+            children: [
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      SizedBox(width: 15),
-                      Text(
-                        'Hi, David',
-                        style: GoogleFonts.montserrat(
-                          color: Appcolors.textColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 30,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      ),
-                      Text(
-                        ' 👋',
-                        style: GoogleFonts.montserrat(
-                          color: Appcolors.textColor,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 25,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      ),
-                    ],
+                  SizedBox(width: 15),
+                  Text(
+                    'Hi, David',
+                    style: GoogleFonts.montserrat(
+                      color: Appcolors.textColor,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 30,
+                      fontStyle: FontStyle.normal,
+                    ),
                   ),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Text(
-                          'Explor the world',
-                          style: GoogleFonts.inter(
-                            color: Appcolors.lighttext,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ],
+                  Text(
+                    ' 👋',
+                    style: GoogleFonts.montserrat(
+                      color: Appcolors.textColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 25,
+                      fontStyle: FontStyle.normal,
+                    ),
                   ),
                 ],
               ),
-            ),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Text(
+                      'Explor the world',
+                      style: GoogleFonts.inter(
+                        color: Appcolors.lighttext,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
         actions: [
           InkWell(
             onTap: () {
@@ -299,352 +327,292 @@ class _HomescreenState extends State<Homescreen> {
                 ],
               ),
             ),
-            SizedBox(height: 10),
-            SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              scrollDirection: Axis.horizontal,
-              child: selectedtab == 0
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: Row(
-                        children: [
-                          Stack(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => DetailsPage(),
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  height: 340,
-                                  width: 270,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        blurRadius: 5,
-                                        spreadRadius: 0,
-                                        offset: Offset(0, 8),
-                                      ),
-                                    ],
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        'assets/viewImage01.png',
-                                      ),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                right: 20,
-                                top: 10,
-                                child: InkWell(
-                                  onTap: () {
-                                    toggleFavorite(0);
-                                  },
-                                  child: Container(
-                                    height: 40,
-                                    width: 40,
-                                    decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                        196,
-                                        82,
-                                        81,
-                                        81,
-                                      ),
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    child: isfav1
-                                        ? Icon(
-                                            Icons.favorite_rounded,
-                                            color: isfav1
-                                                ? Colors.red
-                                                : Appcolors.white,
-                                          )
-                                        : Image.asset(
-                                            'assets/heartIcon.png',
-                                            color: Appcolors.white,
-                                          ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 30,
-                                left: 20,
-                                right: 20,
-                                child: Container(
-                                  height: 80,
-                                  width: 160,
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                      196,
-                                      82,
-                                      81,
-                                      81,
-                                    ),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: 'Mount fujii,',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: ' Tokyo',
-                                                style: TextStyle(
-                                                  color: const Color.fromARGB(
-                                                    255,
-                                                    212,
-                                                    207,
-                                                    207,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.location_on_outlined,
-                                              color: const Color.fromARGB(
-                                                255,
-                                                212,
-                                                207,
-                                                207,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Tokyo,japan',
-                                              style: TextStyle(
-                                                color: const Color.fromARGB(
-                                                  255,
-                                                  212,
-                                                  207,
-                                                  207,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(width: 30),
-                                            Icon(
-                                              Icons.star_border,
-                                              color: const Color.fromARGB(
-                                                255,
-                                                212,
-                                                207,
-                                                207,
-                                              ),
-                                            ),
-                                            SizedBox(width: 5),
-                                            Text(
-                                              '4.8',
-                                              style: TextStyle(
-                                                color: const Color.fromARGB(
-                                                  255,
-                                                  212,
-                                                  207,
-                                                  207,
-                                                ),
-                                                fontSize: 17,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+            SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: isfavoritelists.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 15,
+                    ),
+                    child: Container(
+                      width: 270,
+                      height: 320,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 5,
+                            spreadRadius: 0,
+                            offset: Offset(0, 10),
                           ),
-                          SizedBox(width: 10),
-                          Stack(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => DetailsPage(),
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  height: 340,
-                                  width: 270,
+                        ],
+                        image: DecorationImage(
+                          image: AssetImage(isfavoritelists[index].image),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 10,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  height: 50,
+                                  width: 50,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        blurRadius: 5,
-                                        spreadRadius: 0,
-                                        offset: Offset(0, 8),
-                                      ),
-                                    ],
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        'assets/viewImage02.png',
-                                      ),
-                                      fit: BoxFit.cover,
+                                    borderRadius: BorderRadius.circular(50),
+                                    color: const Color.fromARGB(
+                                      150,
+                                      87,
+                                      83,
+                                      83,
                                     ),
                                   ),
-                                ),
-                              ),
-                              Positioned(
-                                right: 20,
-                                top: 10,
-                                child: InkWell(
-                                  onTap: () {
-                                    toggleFavorite(1);
-                                  },
-                                  child: Container(
-                                    height: 40,
-                                    width: 40,
-                                    decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                        196,
-                                        82,
-                                        81,
-                                        81,
-                                      ),
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    child: isfav2
+                                  child: InkWell(
+                                    onTap: () {
+                                      toggleFavorite(index);
+                                    },
+                                    child: isfavoritelists[index].isFavorite
                                         ? Icon(
-                                            Icons.favorite_rounded,
-                                            color: isfav2
+                                            Icons.favorite,
+                                            color:
+                                                isfavoritelists[index]
+                                                    .isFavorite
                                                 ? Colors.red
                                                 : Appcolors.white,
                                           )
                                         : Image.asset(
                                             'assets/heartIcon.png',
-                                            color: Appcolors.white,
+                                            width: 35,
+                                            height: 35,
                                           ),
                                   ),
                                 ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 150),
+                          Container(
+                            height: 100,
+                            width: 250,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: const Color.fromARGB(150, 87, 83, 83),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: 10,
                               ),
-                              Positioned(
-                                bottom: 30,
-                                left: 20,
-                                right: 20,
-                                child: Container(
-                                  height: 80,
-                                  width: 160,
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                      148,
-                                      104,
-                                      96,
-                                      96,
-                                    ),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: 'Andes,',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: ' America',
-                                                style: TextStyle(
-                                                  color: const Color.fromARGB(
-                                                    255,
-                                                    212,
-                                                    207,
-                                                    207,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.location_on_outlined,
-                                              color: const Color.fromARGB(
-                                                255,
-                                                212,
-                                                207,
-                                                207,
-                                              ),
-                                            ),
-                                            Text(
-                                              'South, America',
-                                              style: TextStyle(
-                                                color: const Color.fromARGB(
-                                                  255,
-                                                  212,
-                                                  207,
-                                                  207,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(width: 30),
-                                            Icon(
-                                              Icons.star_border,
-                                              color: const Color.fromARGB(
-                                                255,
-                                                212,
-                                                207,
-                                                207,
-                                              ),
-                                            ),
-                                            SizedBox(width: 5),
-                                            Text(
-                                              '4.5',
-                                              style: TextStyle(
-                                                fontSize: 17,
-                                                color: const Color.fromARGB(
-                                                  255,
-                                                  212,
-                                                  207,
-                                                  207,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    isfavoritelists[index].title,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Appcolors.white,
                                     ),
                                   ),
-                                ),
+                                  SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      Image.asset('assets/locationicon.png'),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        isfavoritelists[index].location,
+                                        style: TextStyle(
+                                          color: Appcolors.white,
+                                        ),
+                                      ),
+                                      SizedBox(width: 50),
+                                      Image.asset(
+                                        'assets/starIcon.png',
+                                        color: Appcolors.white,
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        isfavoritelists[index].rating,
+                                        style: TextStyle(
+                                          color: Appcolors.white,
+                                          fontSize: 17,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ],
                       ),
-                    )
-                  : Text('We will be back soon stay tuned!'),
+                    ),
+                  );
+                  //  Stack(
+                  //   children: [
+                  //     InkWell(
+                  //       onTap: () {
+                  //         Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //             builder: (context) => DetailsPage(),
+                  //           ),
+                  //         );
+                  //       },
+                  //       child: Container(
+                  //         height: 340,
+                  //         width: 270,
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(20),
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: Colors.grey,
+                  //     blurRadius: 5,
+                  //     spreadRadius: 0,
+                  //     offset: Offset(0, 8),
+                  //   ),
+                  // ],
+                  //           image: DecorationImage(
+                  //             image: AssetImage('assets/viewImage01.png'),
+                  //             fit: BoxFit.fill,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     Positioned(
+                  //       right: 20,
+                  //       top: 10,
+                  //       child: InkWell(
+                  //         onTap: () {
+                  //           toggleFavorite(0);
+                  //         },
+                  //         child: Container(
+                  //           height: 40,
+                  //           width: 40,
+                  //           decoration: BoxDecoration(
+                  //             color: const Color.fromARGB(196, 82, 81, 81),
+                  //             borderRadius: BorderRadius.circular(50),
+                  //           ),
+                  //           child: isfav1
+                  //               ? Icon(
+                  //                   Icons.favorite_rounded,
+                  //                   color: isfav1
+                  //                       ? Colors.red
+                  //                       : Appcolors.white,
+                  //                 )
+                  //               : Image.asset(
+                  //                   'assets/heartIcon.png',
+                  //                   color: Appcolors.white,
+                  //                 ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     Positioned(
+                  //       bottom: 30,
+                  //       left: 20,
+                  //       right: 20,
+                  //       child: Container(
+                  //         height: 80,
+                  //         width: 160,
+                  //         decoration: BoxDecoration(
+                  //           color: const Color.fromARGB(196, 82, 81, 81),
+                  //           borderRadius: BorderRadius.circular(20),
+                  //         ),
+                  //         child: Padding(
+                  //           padding: const EdgeInsets.all(8.0),
+                  //           child: Column(
+                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                  //             children: [
+                  //               RichText(
+                  //                 text: TextSpan(
+                  //                   children: [
+                  //                     TextSpan(
+                  //                       text: 'Mount fujii,',
+                  // style: TextStyle(
+                  //   fontWeight: FontWeight.bold,
+                  // ),
+                  //                     ),
+                  //                     TextSpan(
+                  //                       text: ' Tokyo',
+                  //                       style: TextStyle(
+                  //                         color: const Color.fromARGB(
+                  //                           255,
+                  //                           212,
+                  //                           207,
+                  //                           207,
+                  //                         ),
+                  //                       ),
+                  //                     ),
+                  //                   ],
+                  //                 ),
+                  //               ),
+                  //               SizedBox(height: 10),
+                  //               Row(
+                  //                 children: [
+                  //                   Icon(
+                  //                     Icons.location_on_outlined,
+                  //                     color: const Color.fromARGB(
+                  //                       255,
+                  //                       212,
+                  //                       207,
+                  //                       207,
+                  //                     ),
+                  //                   ),
+                  //                   Text(
+                  //                     'Tokyo,japan',
+                  //                     style: TextStyle(
+                  //                       color: const Color.fromARGB(
+                  //                         255,
+                  //                         212,
+                  //                         207,
+                  //                         207,
+                  //                       ),
+                  //                     ),
+                  //                   ),
+                  //                   SizedBox(width: 30),
+                  //                   Icon(
+                  //                     Icons.star_border,
+                  //                     color: const Color.fromARGB(
+                  //                       255,
+                  //                       212,
+                  //                       207,
+                  //                       207,
+                  //                     ),
+                  //                   ),
+                  //                   SizedBox(width: 5),
+                  //                   Text(
+                  //                     '4.8',
+                  //                     style: TextStyle(
+                  //                       color: const Color.fromARGB(
+                  //                         255,
+                  //                         212,
+                  //                         207,
+                  //                         207,
+                  //                       ),
+                  //                       fontSize: 17,
+                  //                     ),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // );
+                },
+              ),
             ),
           ],
         ),
