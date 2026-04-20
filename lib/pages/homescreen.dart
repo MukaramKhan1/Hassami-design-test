@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mukaram_sir_task/pages/overview_screen.dart';
 import 'package:mukaram_sir_task/pages/profile_screen.dart';
 import 'package:mukaram_sir_task/utils/appColors.dart';
 import 'package:mukaram_sir_task/widgets/containertabs.dart';
@@ -116,7 +113,6 @@ class _HomescreenState extends State<Homescreen> {
         //   (item) => item['title'] == isfavoritelists[index].title,
         // );
       }
-      print("the length of mhy data ${favouriteListNew.value.length}");
     });
   }
 
@@ -131,7 +127,6 @@ class _HomescreenState extends State<Homescreen> {
   @override
   Widget build(BuildContext context) {
     // media query build k andar use huti hai
-
     // final h = MediaQuery.sizeOf(context).height;
     // final w = MediaQuery.sizeOf(context).width;
     return Scaffold(
@@ -222,12 +217,12 @@ class _HomescreenState extends State<Homescreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailsPage(),
-                            ),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => DetailsPage(),
+                          //   ),
+                          // );
                         },
                         child: Text(
                           'View all',
@@ -329,48 +324,88 @@ class _HomescreenState extends State<Homescreen> {
             ),
             SizedBox(height: 20),
             Expanded(
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: isfavoritelists.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                      vertical: 15,
-                    ),
-                    child: Container(
-                      width: 270,
-                      height: 320,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 5,
-                            spreadRadius: 0,
-                            offset: Offset(0, 10),
+              child: selectedtab == 0
+                  ? ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: isfavoritelists.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 15,
                           ),
-                        ],
-                        image: DecorationImage(
-                          image: AssetImage(isfavoritelists[index].image),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 10,
+                          child: Container(
+                            width: 270,
+                            height: 320,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey,
+                                  blurRadius: 5,
+                                  spreadRadius: 0,
+                                  offset: Offset(0, 10),
+                                ),
+                              ],
+                              image: DecorationImage(
+                                image: AssetImage(isfavoritelists[index].image),
+                                fit: BoxFit.fill,
+                              ),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                            child: Column(
                               children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 10,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            50,
+                                          ),
+                                          color: const Color.fromARGB(
+                                            150,
+                                            87,
+                                            83,
+                                            83,
+                                          ),
+                                        ),
+                                        child: InkWell(
+                                          onTap: () {
+                                            toggleFavorite(index);
+                                          },
+                                          child:
+                                              isfavoritelists[index].isFavorite
+                                              ? Icon(
+                                                  Icons.favorite,
+                                                  color:
+                                                      isfavoritelists[index]
+                                                          .isFavorite
+                                                      ? Colors.red
+                                                      : Appcolors.white,
+                                                )
+                                              : Image.asset(
+                                                  'assets/heartIcon.png',
+                                                  width: 35,
+                                                  height: 35,
+                                                ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 150),
                                 Container(
-                                  height: 50,
-                                  width: 50,
+                                  height: 100,
+                                  width: 250,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
+                                    borderRadius: BorderRadius.circular(20),
                                     color: const Color.fromARGB(
                                       150,
                                       87,
@@ -378,241 +413,214 @@ class _HomescreenState extends State<Homescreen> {
                                       83,
                                     ),
                                   ),
-                                  child: InkWell(
-                                    onTap: () {
-                                      toggleFavorite(index);
-                                    },
-                                    child: isfavoritelists[index].isFavorite
-                                        ? Icon(
-                                            Icons.favorite,
-                                            color:
-                                                isfavoritelists[index]
-                                                    .isFavorite
-                                                ? Colors.red
-                                                : Appcolors.white,
-                                          )
-                                        : Image.asset(
-                                            'assets/heartIcon.png',
-                                            width: 35,
-                                            height: 35,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 15,
+                                      vertical: 10,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          isfavoritelists[index].title,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Appcolors.white,
                                           ),
+                                        ),
+                                        SizedBox(height: 20),
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              'assets/locationicon.png',
+                                            ),
+                                            SizedBox(width: 10),
+                                            Text(
+                                              isfavoritelists[index].location,
+                                              style: TextStyle(
+                                                color: Appcolors.white,
+                                              ),
+                                            ),
+                                            SizedBox(width: 50),
+                                            Image.asset(
+                                              'assets/starIcon.png',
+                                              color: Appcolors.white,
+                                            ),
+                                            SizedBox(width: 5),
+                                            Text(
+                                              isfavoritelists[index].rating,
+                                              style: TextStyle(
+                                                color: Appcolors.white,
+                                                fontSize: 17,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(height: 150),
-                          Container(
-                            height: 100,
-                            width: 250,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: const Color.fromARGB(150, 87, 83, 83),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 15,
-                                vertical: 10,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    isfavoritelists[index].title,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Appcolors.white,
-                                    ),
-                                  ),
-                                  SizedBox(height: 20),
-                                  Row(
-                                    children: [
-                                      Image.asset('assets/locationicon.png'),
-                                      SizedBox(width: 10),
-                                      Text(
-                                        isfavoritelists[index].location,
-                                        style: TextStyle(
-                                          color: Appcolors.white,
-                                        ),
-                                      ),
-                                      SizedBox(width: 50),
-                                      Image.asset(
-                                        'assets/starIcon.png',
-                                        color: Appcolors.white,
-                                      ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        isfavoritelists[index].rating,
-                                        style: TextStyle(
-                                          color: Appcolors.white,
-                                          fontSize: 17,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                  //  Stack(
-                  //   children: [
-                  //     InkWell(
-                  //       onTap: () {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //             builder: (context) => DetailsPage(),
-                  //           ),
-                  //         );
-                  //       },
-                  //       child: Container(
-                  //         height: 340,
-                  //         width: 270,
-                  //         decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(20),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.grey,
-                  //     blurRadius: 5,
-                  //     spreadRadius: 0,
-                  //     offset: Offset(0, 8),
-                  //   ),
-                  // ],
-                  //           image: DecorationImage(
-                  //             image: AssetImage('assets/viewImage01.png'),
-                  //             fit: BoxFit.fill,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     Positioned(
-                  //       right: 20,
-                  //       top: 10,
-                  //       child: InkWell(
-                  //         onTap: () {
-                  //           toggleFavorite(0);
-                  //         },
-                  //         child: Container(
-                  //           height: 40,
-                  //           width: 40,
-                  //           decoration: BoxDecoration(
-                  //             color: const Color.fromARGB(196, 82, 81, 81),
-                  //             borderRadius: BorderRadius.circular(50),
-                  //           ),
-                  //           child: isfav1
-                  //               ? Icon(
-                  //                   Icons.favorite_rounded,
-                  //                   color: isfav1
-                  //                       ? Colors.red
-                  //                       : Appcolors.white,
-                  //                 )
-                  //               : Image.asset(
-                  //                   'assets/heartIcon.png',
-                  //                   color: Appcolors.white,
-                  //                 ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     Positioned(
-                  //       bottom: 30,
-                  //       left: 20,
-                  //       right: 20,
-                  //       child: Container(
-                  //         height: 80,
-                  //         width: 160,
-                  //         decoration: BoxDecoration(
-                  //           color: const Color.fromARGB(196, 82, 81, 81),
-                  //           borderRadius: BorderRadius.circular(20),
-                  //         ),
-                  //         child: Padding(
-                  //           padding: const EdgeInsets.all(8.0),
-                  //           child: Column(
-                  //             crossAxisAlignment: CrossAxisAlignment.start,
-                  //             children: [
-                  //               RichText(
-                  //                 text: TextSpan(
-                  //                   children: [
-                  //                     TextSpan(
-                  //                       text: 'Mount fujii,',
-                  // style: TextStyle(
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  //                     ),
-                  //                     TextSpan(
-                  //                       text: ' Tokyo',
-                  //                       style: TextStyle(
-                  //                         color: const Color.fromARGB(
-                  //                           255,
-                  //                           212,
-                  //                           207,
-                  //                           207,
-                  //                         ),
-                  //                       ),
-                  //                     ),
-                  //                   ],
-                  //                 ),
-                  //               ),
-                  //               SizedBox(height: 10),
-                  //               Row(
-                  //                 children: [
-                  //                   Icon(
-                  //                     Icons.location_on_outlined,
-                  //                     color: const Color.fromARGB(
-                  //                       255,
-                  //                       212,
-                  //                       207,
-                  //                       207,
-                  //                     ),
-                  //                   ),
-                  //                   Text(
-                  //                     'Tokyo,japan',
-                  //                     style: TextStyle(
-                  //                       color: const Color.fromARGB(
-                  //                         255,
-                  //                         212,
-                  //                         207,
-                  //                         207,
-                  //                       ),
-                  //                     ),
-                  //                   ),
-                  //                   SizedBox(width: 30),
-                  //                   Icon(
-                  //                     Icons.star_border,
-                  //                     color: const Color.fromARGB(
-                  //                       255,
-                  //                       212,
-                  //                       207,
-                  //                       207,
-                  //                     ),
-                  //                   ),
-                  //                   SizedBox(width: 5),
-                  //                   Text(
-                  //                     '4.8',
-                  //                     style: TextStyle(
-                  //                       color: const Color.fromARGB(
-                  //                         255,
-                  //                         212,
-                  //                         207,
-                  //                         207,
-                  //                       ),
-                  //                       fontSize: 17,
-                  //                     ),
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // );
-                },
-              ),
+                        );
+                        //  Stack(
+                        //   children: [
+                        //     InkWell(
+                        //       onTap: () {
+                        //         Navigator.push(
+                        //           context,
+                        //           MaterialPageRoute(
+                        //             builder: (context) => DetailsPage(),
+                        //           ),
+                        //         );
+                        //       },
+                        //       child: Container(
+                        //         height: 340,
+                        //         width: 270,
+                        //         decoration: BoxDecoration(
+                        //           borderRadius: BorderRadius.circular(20),
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.grey,
+                        //     blurRadius: 5,
+                        //     spreadRadius: 0,
+                        //     offset: Offset(0, 8),
+                        //   ),
+                        // ],
+                        //           image: DecorationImage(
+                        //             image: AssetImage('assets/viewImage01.png'),
+                        //             fit: BoxFit.fill,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     Positioned(
+                        //       right: 20,
+                        //       top: 10,
+                        //       child: InkWell(
+                        //         onTap: () {
+                        //           toggleFavorite(0);
+                        //         },
+                        //         child: Container(
+                        //           height: 40,
+                        //           width: 40,
+                        //           decoration: BoxDecoration(
+                        //             color: const Color.fromARGB(196, 82, 81, 81),
+                        //             borderRadius: BorderRadius.circular(50),
+                        //           ),
+                        //           child: isfav1
+                        //               ? Icon(
+                        //                   Icons.favorite_rounded,
+                        //                   color: isfav1
+                        //                       ? Colors.red
+                        //                       : Appcolors.white,
+                        //                 )
+                        //               : Image.asset(
+                        //                   'assets/heartIcon.png',
+                        //                   color: Appcolors.white,
+                        //                 ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     Positioned(
+                        //       bottom: 30,
+                        //       left: 20,
+                        //       right: 20,
+                        //       child: Container(
+                        //         height: 80,
+                        //         width: 160,
+                        //         decoration: BoxDecoration(
+                        //           color: const Color.fromARGB(196, 82, 81, 81),
+                        //           borderRadius: BorderRadius.circular(20),
+                        //         ),
+                        //         child: Padding(
+                        //           padding: const EdgeInsets.all(8.0),
+                        //           child: Column(
+                        //             crossAxisAlignment: CrossAxisAlignment.start,
+                        //             children: [
+                        //               RichText(
+                        //                 text: TextSpan(
+                        //                   children: [
+                        //                     TextSpan(
+                        //                       text: 'Mount fujii,',
+                        // style: TextStyle(
+                        //   fontWeight: FontWeight.bold,
+                        // ),
+                        //                     ),
+                        //                     TextSpan(
+                        //                       text: ' Tokyo',
+                        //                       style: TextStyle(
+                        //                         color: const Color.fromARGB(
+                        //                           255,
+                        //                           212,
+                        //                           207,
+                        //                           207,
+                        //                         ),
+                        //                       ),
+                        //                     ),
+                        //                   ],
+                        //                 ),
+                        //               ),
+                        //               SizedBox(height: 10),
+                        //               Row(
+                        //                 children: [
+                        //                   Icon(
+                        //                     Icons.location_on_outlined,
+                        //                     color: const Color.fromARGB(
+                        //                       255,
+                        //                       212,
+                        //                       207,
+                        //                       207,
+                        //                     ),
+                        //                   ),
+                        //                   Text(
+                        //                     'Tokyo,japan',
+                        //                     style: TextStyle(
+                        //                       color: const Color.fromARGB(
+                        //                         255,
+                        //                         212,
+                        //                         207,
+                        //                         207,
+                        //                       ),
+                        //                     ),
+                        //                   ),
+                        //                   SizedBox(width: 30),
+                        //                   Icon(
+                        //                     Icons.star_border,
+                        //                     color: const Color.fromARGB(
+                        //                       255,
+                        //                       212,
+                        //                       207,
+                        //                       207,
+                        //                     ),
+                        //                   ),
+                        //                   SizedBox(width: 5),
+                        //                   Text(
+                        //                     '4.8',
+                        //                     style: TextStyle(
+                        //                       color: const Color.fromARGB(
+                        //                         255,
+                        //                         212,
+                        //                         207,
+                        //                         207,
+                        //                       ),
+                        //                       fontSize: 17,
+                        //                     ),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // );
+                      },
+                    )
+                  : Text('We will be updated soon'),
             ),
           ],
         ),
